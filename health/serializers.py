@@ -15,12 +15,12 @@ class PhysicianSerializer(serializers.ModelSerializer):
 
 class AppointmentSerializer(serializers.ModelSerializer):
 	date = serializers.DateTimeField()
-	patient = PatientSerializer(many=False, read_only=True)
-	physician = PhysicianSerializer(many=False, read_only=True)
+	patient = serializers.PrimaryKeyRelatedField(queryset=Patient.objects.all())
+	physician = serializers.PrimaryKeyRelatedField(queryset=Physician.objects.all())
 
 	def validate_date(self, value):
 		if value.minute % 15 != 0:
-			return serializers.ValueError("Not every 15 minutes.")
+			return ValueError("Not every 15 minutes.")
 		return value
 
 	class Meta:

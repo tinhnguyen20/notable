@@ -31,6 +31,7 @@ class Appointment(models.Model):
 	patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
 	physician = models.ForeignKey(Physician, on_delete=models.CASCADE)
 	notes = models.TextField(default="")
+	kind = models.CharField(max_length=16, choices=KIND_CHOICES)
 	created_time = models.DateTimeField(auto_now=True)
 
 	def appointment_by_doctor(doctor_id):

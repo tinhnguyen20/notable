@@ -1,11 +1,15 @@
 from django.http import HttpResponse, JsonResponse, Http404
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt # for testing only
 
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework import status
+
+import json
+import logging
 
 from .models import Patient, Appointment, Physician
 
@@ -23,13 +27,15 @@ def patient_list(request):
         }
         return render(request, 'health/patient_list.html', context)
     elif request.method == 'POST':
-        data = JsonParser().parse(request)
+
+        data = JSONParser().parse(request)
         serializer = PatientSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+@csrf_exempt
 def visit_list(request):
     if request.method == 'GET':
         try:
@@ -42,7 +48,7 @@ def visit_list(request):
         }
         return render(request, 'health/visit_list.html', context)
     elif request.method == 'POST':
-        data = JsonParser().parse(request)
+        data = JSONParser().parse(request)
         serializer = AppointmentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

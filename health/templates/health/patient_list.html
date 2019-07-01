@@ -3,7 +3,7 @@
 {% block content %}
     {% for patient in patient_list %}
         <div class="patient">
-            <h4><a href="">name | {{ patient.name }} | {{patient.height}} | {{patient.weight}} </a></h4>
+            <h4><a href="">name | {{ patient.first_name }} {{patient.last_name}} | {{patient.height}} | {{patient.weight}} </a></h4>
             <p>{{ patient.name|linebreaksbr }}</p>
         </div>
     {% endfor %}
