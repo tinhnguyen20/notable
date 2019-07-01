@@ -1,0 +1,10 @@
+{% extends 'health/base.html' %}
+
+{% block content %}
+    {% for visit in visit_list %}
+        <div class="visit">
+            <h4><a href="">name | {{ visit.date }} | {{visit.patient}} | {{visit.physician}} </a></h4>
+            <p>{{ visit.notes|linebreaksbr }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
